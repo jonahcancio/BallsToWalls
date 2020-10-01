@@ -13,7 +13,7 @@ public class WallCollision : MonoBehaviour
         if (col.gameObject.CompareTag("Projectile"))
         {
             col.gameObject.GetComponent<Ball>().FlipState();
-            Biggen(col.transform);
+            //Biggen(col.transform);
         }
 
     }

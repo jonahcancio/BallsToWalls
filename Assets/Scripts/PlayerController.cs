@@ -93,11 +93,6 @@ public class PlayerController : MonoBehaviour
                 BallPooler.Instance.SpawnFromPool(playerPointer.position, aimVector * projectileSpeed);
                 timeLastLobbed = Time.time;
             }
-            else
-            {
-                Debug.Log("Lob on cooldown");
-            }
-
         }
     }
 }
