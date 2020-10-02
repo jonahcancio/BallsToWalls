@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private Camera mainCamera;
     [SerializeField]
     private Transform playerPointer;
+    public Animator playerBodyAnimator;
+
     private Vector2 moveVector;
     private Vector2 aimVector;
 
@@ -31,8 +33,9 @@ public class PlayerController : MonoBehaviour
         playerBody = transform.Find("PlayerBody");
         aimVector = playerBody.up;
         playerPointer = playerBody.Find("Pointer");
-        timeLastLobbed = -lobCooldown;
+        playerBodyAnimator = playerBody.GetComponent<Animator>();
 
+        timeLastLobbed = -lobCooldown;
         joinCompleted = true;
     }
 
@@ -90,9 +93,18 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.time - timeLastLobbed > lobCooldown)
             {
-                BallPooler.Instance.SpawnFromPool(playerPointer.position, aimVector * projectileSpeed);
+                //BallPooler.Instance.SpawnFromPool(playerPointer.position, aimVector * projectileSpeed);
+                StartCoroutine(LobBallAfterTime(0.125f));
                 timeLastLobbed = Time.time;
+                playerBodyAnimator.SetTrigger("IsLobbing");
+                AudioController.Instance.PlaySound("lob");
             }
         }
+    }
+
+    private IEnumerator LobBallAfterTime(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        BallPooler.Instance.SpawnFromPool(playerPointer.position, aimVector * projectileSpeed);
     }
 }

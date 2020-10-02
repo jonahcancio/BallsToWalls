@@ -28,6 +28,16 @@ public class PlayerData : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         healthBar.SetHealth(currentHealth);
+
+        if ( damage > 0 )
+        {
+            AudioController.Instance.PlaySound("damage");
+        } else
+        {
+            AudioController.Instance.PlaySound("heal");
+        }
+
+
         if (currentHealth <= 0 && !isDying)
         {
             isDying = true;
